@@ -4,9 +4,9 @@
  */
 
 // Dynamic import for ES modules
-module.exports = async function eleventyBricksPlugin(eleventyConfig) {
+module.exports = async function eleventyBricksPlugin(eleventyConfig, options) {
   const { default: plugin } = await import('./index.js');
-  return plugin(eleventyConfig);
+  return plugin(eleventyConfig, options);
 };
 
 // Export individual helpers

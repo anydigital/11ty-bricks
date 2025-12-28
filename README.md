@@ -12,16 +12,18 @@ npm install @anydigital/11ty-bricks
 
 You can use this library in two ways:
 
-### Option 1: As a Plugin (All Helpers)
+### Option 1: As a Plugin
 
-Import and use the entire plugin to register all helpers at once:
+Import and use the entire plugin. You can configure which helpers to enable using the options parameter:
 
 **ES Modules:**
 ```javascript
 import eleventyBricks from "@anydigital/11ty-bricks";
 
 export default function(eleventyConfig) {
-  eleventyBricks(eleventyConfig);
+  eleventyBricks(eleventyConfig, {
+    autoRaw: true  // Enable autoRaw preprocessor (default: false)
+  });
   
   // Your other configuration...
 }
@@ -32,15 +34,17 @@ export default function(eleventyConfig) {
 const eleventyBricks = require("@anydigital/11ty-bricks");
 
 module.exports = function(eleventyConfig) {
-  eleventyBricks(eleventyConfig);
+  eleventyBricks(eleventyConfig, {
+    autoRaw: true  // Enable autoRaw preprocessor (default: false)
+  });
   
   // Your other configuration...
 };
 ```
 
-### Option 2: Import Individual Helpers
+### Option 2: Import Individual Helpers (Recommended)
 
-Import only the helpers you need:
+Import only the specific helpers you need without using the plugin:
 
 **ES Modules:**
 ```javascript
@@ -62,6 +66,21 @@ module.exports = function(eleventyConfig) {
   
   // Your other configuration...
 };
+```
+
+## Configuration Options
+
+When using the plugin (Option 1), you can configure which helpers to enable:
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `autoRaw` | boolean | `false` | Enable the autoRaw preprocessor for Markdown files |
+
+**Example:**
+```javascript
+eleventyBricks(eleventyConfig, {
+  autoRaw: true
+});
 ```
 
 ## Available Helpers
