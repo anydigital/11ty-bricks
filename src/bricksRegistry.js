@@ -109,9 +109,7 @@ export function bricksRegistry(eleventyConfig) {
     
     // Add external script links
     externalScripts.forEach(src => {
-      // Handle ~ prefix for local paths
-      const url = src.startsWith('~/') ? src.substring(2) : src;
-      dependenciesHtml += `  <script src="${url}"></script>\n`;
+      dependenciesHtml += `  <script src="${src}"></script>\n`;
     });
     
     // Add inline scripts
