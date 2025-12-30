@@ -102,6 +102,48 @@ Use {{ variable }} to output variables.
 
 Would try to process `{{ variable }}` as a template variable. With `autoRaw`, it displays exactly as written.
 
+## Available Bricks (Components)
+
+### Navigation Macro (`_nav.njk`)
+
+A reusable Nunjucks macro for rendering navigation menus with proper accessibility attributes. This macro works seamlessly with the [11ty Navigation Plugin](https://www.11ty.dev/docs/plugins/navigation/).
+
+**Usage:**
+
+1. Import the macro in your template:
+
+```njk
+{% from "bricks/_nav.njk" import render as renderNav %}
+```
+
+2. Call the macro with your navigation data:
+
+```njk
+{{ renderNav(collections.all | eleventyNavigation, page) }}
+```
+
+**Parameters:**
+
+- `navPages`: Array of navigation entries (typically from `eleventyNavigation` filter)
+- `curPage`: Current page object (use Eleventy's `page` variable)
+
+**Features:**
+
+- Renders a semantic `<nav>` element
+- Automatically adds `aria-current="page"` to the current page link for accessibility
+- Clean, minimal markup ready for styling
+- Works with nested navigation structures from the 11ty Navigation Plugin
+
+**Example Output:**
+
+```html
+<nav>
+  <a href="/">Home</a>
+  <a href="/about/">About</a>
+  <a href="/contact/" aria-current="page">Contact</a>
+</nav>
+```
+
 ## CLI Helper Commands
 
 After installing this package, the `download-files` command becomes available:
