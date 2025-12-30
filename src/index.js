@@ -1,3 +1,4 @@
+import { bricksRegistry } from "./bricksRegistry.js";
 import { autoRaw } from "./autoRaw.js";
 
 /**
@@ -13,6 +14,8 @@ import { autoRaw } from "./autoRaw.js";
 export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
   const { autoRaw: enableAutoRaw = false } = options;
 
+  bricksRegistry(eleventyConfig);
+
   // Register helpers based on options
   if (enableAutoRaw) {
     autoRaw(eleventyConfig);
@@ -20,5 +23,5 @@ export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
 }
 
 // Export individual helpers for granular usage
+export { bricksRegistry };
 export { autoRaw };
-
