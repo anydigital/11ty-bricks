@@ -11,7 +11,7 @@
     }
   },
   "bin": {
-    "download-files": "./src/cli/download-files.js"
+    "download-files": "src/cli/download-files.js"
   },
   "files": [
     "src"
