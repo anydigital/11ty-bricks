@@ -23,7 +23,7 @@ export function bricksRegistry(eleventyConfig) {
   });
 
   // brick shortcode: registers and renders a brick component
-  eleventyConfig.addShortcode("brick", function(brickModule) {
+  eleventyConfig.addShortcode("brick", function(brickModule, ...args) {
     const registry = getPageRegistry(this.page);
     
     if (!brickModule) return '';
@@ -47,14 +47,14 @@ export function bricksRegistry(eleventyConfig) {
     
     // Render the brick using render() macro
     if (brickModule.render && typeof brickModule.render === 'function') {
-      return brickModule.render();
+      return brickModule.render(...args);
     }
     
     return '';
   });
 
   // bricksRegistry shortcode: outputs placeholder and base dependencies
-  eleventyConfig.addShortcode("bricksRegistry", function(dependencies = []) {
+  eleventyConfig.addShortcode("bricksDependencies", function(dependencies = []) {
     const registry = getPageRegistry(this.page);
     
     // Register root dependencies if provided (categorized later in transform)
