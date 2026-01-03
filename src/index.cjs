@@ -22,3 +22,7 @@ module.exports.fragment = async function(eleventyConfig) {
   const { fragment } = await import('./index.js');
   return fragment(eleventyConfig);
 };
+module.exports.setAttr = async function(eleventyConfig) {
+  const { setAttr } = await import('./index.js');
+  return setAttr(eleventyConfig);
+};

@@ -1,6 +1,7 @@
 import { bricksRegistry } from "./bricksRegistry.js";
 import { autoRaw } from "./autoRaw.js";
 import { fragment } from "./fragment.js";
+import { setAttr } from "./setAttr.js";
 
 /**
  * 11ty Bricks Plugin
@@ -13,6 +14,7 @@ import { fragment } from "./fragment.js";
  * @param {boolean} options.bricks - Enable bricks system with dependencies injection (default: false)
  * @param {boolean} options.autoRaw - Enable autoRaw preprocessor (default: false)
  * @param {boolean} options.fragments - Enable fragment shortcode (default: false)
+ * @param {boolean} options.setAttrFilter - Enable setAttr filter (default: false)
  */
 export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
   if (options.bricks) {
@@ -24,9 +26,13 @@ export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
   if (options.fragments) {
     fragment(eleventyConfig);
   }
+  if (options.setAttrFilter) {
+    setAttr(eleventyConfig);
+  }
 }
 
 // Export individual helpers for granular usage
 export { bricksRegistry };
 export { autoRaw };
 export { fragment };
+export { setAttr };
