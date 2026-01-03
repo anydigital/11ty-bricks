@@ -22,7 +22,7 @@ import eleventyBricks from "@anydigital/11ty-bricks";
 
 export default function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyBricks, {
-    autoRaw: true  // Enable autoRaw preprocessor (default: false)
+    autoRawPreprocessor: true  // Enable autoRaw preprocessor (default: false)
   });
   
   // Your other configuration...
@@ -35,7 +35,7 @@ const eleventyBricks = require("@anydigital/11ty-bricks");
 
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyBricks, {
-    autoRaw: true  // Enable autoRaw preprocessor (default: false)
+    autoRawPreprocessor: true  // Enable autoRaw preprocessor (default: false)
   });
   
   // Your other configuration...
@@ -77,7 +77,7 @@ When using the plugin (Option 1), you can configure which helpers to enable:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `bricks` | boolean | `false` | Enable the bricks system for dependency management |
-| `autoRaw` | boolean | `false` | Enable the autoRaw preprocessor for Markdown files |
+| `autoRawPreprocessor` | boolean | `false` | Enable the autoRaw preprocessor for Markdown files |
 | `fragments` | boolean | `false` | Enable the fragment shortcode for including content from fragments |
 | `setAttrFilter` | boolean | `false` | Enable the setAttr filter for overriding object attributes |
 | `byAttrFilter` | boolean | `false` | Enable the byAttr filter for filtering collections by attribute values |
@@ -86,7 +86,7 @@ When using the plugin (Option 1), you can configure which helpers to enable:
 ```javascript
 eleventyConfig.addPlugin(eleventyBricks, {
   bricks: true,
-  autoRaw: true,
+  autoRawPreprocessor: true,
   byAttrFilter: true
 });
 ```

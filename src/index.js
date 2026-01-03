@@ -13,7 +13,7 @@ import { byAttr } from "./byAttr.js";
  * @param {Object} eleventyConfig - The Eleventy configuration object
  * @param {Object} options - Plugin options
  * @param {boolean} options.bricks - Enable bricks system with dependencies injection (default: false)
- * @param {boolean} options.autoRaw - Enable autoRaw preprocessor (default: false)
+ * @param {boolean} options.autoRawPreprocessor - Enable autoRaw preprocessor (default: false)
  * @param {boolean} options.fragments - Enable fragment shortcode (default: false)
  * @param {boolean} options.setAttrFilter - Enable setAttr filter (default: false)
  * @param {boolean} options.byAttrFilter - Enable byAttr filter (default: false)
@@ -22,7 +22,7 @@ export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
   if (options.bricks) {
     bricksRegistry(eleventyConfig);
   }
-  if (options.autoRaw) {
+  if (options.autoRawPreprocessor) {
     autoRaw(eleventyConfig);
   }
   if (options.fragments) {
