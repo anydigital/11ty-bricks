@@ -76,14 +76,18 @@ When using the plugin (Option 1), you can configure which helpers to enable:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `bricksRegistry` | boolean | `false` | Enable the bricksRegistry system for dependency management |
+| `bricks` | boolean | `false` | Enable the bricks system for dependency management |
 | `autoRaw` | boolean | `false` | Enable the autoRaw preprocessor for Markdown files |
+| `fragments` | boolean | `false` | Enable the fragment shortcode for including content from fragments |
+| `setAttrFilter` | boolean | `false` | Enable the setAttr filter for overriding object attributes |
+| `byAttrFilter` | boolean | `false` | Enable the byAttr filter for filtering collections by attribute values |
 
 **Example:**
 ```javascript
 eleventyConfig.addPlugin(eleventyBricks, {
-  bricksRegistry: true,
-  autoRaw: true
+  bricks: true,
+  autoRaw: true,
+  byAttrFilter: true
 });
 ```
 
@@ -208,6 +212,91 @@ Use {{ variable }} to output variables.
 ```
 
 Would try to process `{{ variable }}` as a template variable. With `autoRaw`, it displays exactly as written.
+
+### byAttr
+
+A filter that filters collection items by attribute value. It checks if an item's attribute matches a target value. If the attribute is an array, it checks if the array includes the target value.
+
+**Why use this?**
+
+When working with Eleventy collections, you often need to filter items based on front matter data. The `byAttr` filter provides a flexible way to filter by any attribute, with special handling for array attributes (like tags).
+
+**Usage:**
+
+1. Enable `byAttr` in your Eleventy config:
+
+```javascript
+import { byAttr } from "@anydigital/11ty-bricks";
+
+export default function(eleventyConfig) {
+  byAttr(eleventyConfig);
+  // Or use as plugin:
+  // eleventyConfig.addPlugin(eleventyBricks, { byAttrFilter: true });
+}
+```
+
+2. Use the filter in your templates:
+
+**Filter by exact attribute match:**
+```njk
+{# Get all posts with category 'blog' #}
+{% set blogPosts = collections.all | byAttr('category', 'blog') %}
+
+{% for post in blogPosts %}
+  <h2>{{ post.data.title }}</h2>
+{% endfor %}
+```
+
+**Filter by array attribute (tags):**
+```njk
+{# Get all posts that include 'javascript' tag #}
+{% set jsPosts = collections.all | byAttr('tags', 'javascript') %}
+
+{% for post in jsPosts %}
+  <h2>{{ post.data.title }}</h2>
+{% endfor %}
+```
+
+**Parameters:**
+
+- `collection`: The collection to filter (array of items)
+- `attrName`: The attribute name to check (string)
+- `targetValue`: The value to match against (any type)
+
+**Features:**
+
+- Works with any attribute in front matter
+- Handles both `item.data.attrName` and `item.attrName` patterns
+- Special handling for array attributes (uses `includes()` check)
+- Returns empty array if collection is invalid
+- Filters out items without the specified attribute
+
+**Examples:**
+
+Front matter:
+```yaml
+---
+title: My Post
+category: blog
+tags: [javascript, tutorial, beginner]
+priority: 1
+---
+```
+
+Template usage:
+```njk
+{# Filter by category #}
+{% set blogPosts = collections.all | byAttr('category', 'blog') %}
+
+{# Filter by tag (array) #}
+{% set jsTutorials = collections.all | byAttr('tags', 'javascript') %}
+
+{# Filter by numeric value #}
+{% set highPriority = collections.all | byAttr('priority', 1) %}
+
+{# Chain filters #}
+{% set recentBlogPosts = collections.all | byAttr('category', 'blog') | reverse | limit(5) %}
+```
 
 ## Available Bricks (Components)
 

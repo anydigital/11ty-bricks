@@ -26,3 +26,7 @@ module.exports.setAttr = async function(eleventyConfig) {
   const { setAttr } = await import('./index.js');
   return setAttr(eleventyConfig);
 };
+module.exports.byAttr = async function(eleventyConfig) {
+  const { byAttr } = await import('./index.js');
+  return byAttr(eleventyConfig);
+};
