@@ -124,13 +124,15 @@ export default function(eleventyConfig) {
 }
 ```
 
-2. Add the `bricksRegistry` shortcode in your base template (typically in the `<head>` section):
+2. Add the `bricksDependencies` shortcode in your base template (typically in the `<head>` section):
 
 ```njk
 <head>
   <meta charset="UTF-8">
   <title>My Site</title>
-  {% bricksRegistry %}
+  {% bricksDependencies [
+    ... (global dependencies can be set here) ...
+  ] %}
   <!-- Other head content -->
 </head>
 ```
@@ -212,6 +214,148 @@ Use {{ variable }} to output variables.
 ```
 
 Would try to process `{{ variable }}` as a template variable. With `autoRaw`, it displays exactly as written.
+
+### fragment
+
+A shortcode that includes content from fragment files stored in the `_fragments` directory. The content will be processed by the template engine.
+
+**Why use this?**
+
+Fragments allow you to organize reusable content snippets in a dedicated directory and include them in your templates. This is useful for:
+- Reusable content blocks
+- Shared template sections
+- Component-like content organization
+
+**Usage:**
+
+1. Enable `fragment` in your Eleventy config:
+
+```javascript
+import { fragment } from "@anydigital/11ty-bricks";
+
+export default function(eleventyConfig) {
+  fragment(eleventyConfig);
+  // Or use as plugin:
+  // eleventyConfig.addPlugin(eleventyBricks, { fragments: true });
+}
+```
+
+2. Create fragment files in the `_fragments` directory (relative to your input directory):
+
+```
+your-project/
+  _fragments/
+    header.njk
+    footer.njk
+    callout.md
+```
+
+3. Use the `fragment` shortcode in your templates:
+
+```njk
+{% fragment "header.njk" %}
+
+<main>
+  <!-- Your content -->
+</main>
+
+{% fragment "footer.njk" %}
+```
+
+**Parameters:**
+
+- `path`: The path to the fragment file relative to the `_fragments` directory
+
+**Features:**
+
+- Reads files from `_fragments` directory in your input directory
+- Content is processed by the template engine
+- Supports any template language that Eleventy supports
+- Shows helpful error comment if fragment is not found
+
+**Example:**
+
+Create `_fragments/callout.njk`:
+```njk
+<div class="callout callout-{{ type | default('info') }}">
+  {{ content }}
+</div>
+```
+
+Use it in your template:
+```njk
+{% set type = "warning" %}
+{% set content = "This is important!" %}
+{% fragment "callout.njk" %}
+```
+
+### setAttr
+
+A filter that creates a new object with an overridden attribute value. This is useful for modifying data objects in templates without mutating the original.
+
+**Why use this?**
+
+When working with Eleventy data, you sometimes need to modify an object's properties for a specific use case. The `setAttr` filter provides a clean way to create a modified copy of an object without affecting the original.
+
+**Usage:**
+
+1. Enable `setAttr` in your Eleventy config:
+
+```javascript
+import { setAttr } from "@anydigital/11ty-bricks";
+
+export default function(eleventyConfig) {
+  setAttr(eleventyConfig);
+  // Or use as plugin:
+  // eleventyConfig.addPlugin(eleventyBricks, { setAttrFilter: true });
+}
+```
+
+2. Use the filter in your templates:
+
+```njk
+{# Create a modified version of a page object #}
+{% set modifiedPage = page | setAttr('title', 'New Title') %}
+
+<h1>{{ modifiedPage.title }}</h1>
+<p>Original title: {{ page.title }}</p>
+```
+
+**Parameters:**
+
+- `obj`: The object to modify
+- `key`: The attribute name to set (string)
+- `value`: The value to set for the attribute (any type)
+
+**Returns:**
+
+A new object with the specified attribute set to the given value. The original object is not modified.
+
+**Features:**
+
+- Non-mutating: Creates a new object, leaving the original unchanged
+- Works with any object type
+- Supports any attribute name and value type
+- Can be chained with other filters
+
+**Examples:**
+
+```njk
+{# Override a single attribute #}
+{% set updatedPost = post | setAttr('featured', true) %}
+
+{# Chain multiple setAttr filters #}
+{% set modifiedPost = post 
+  | setAttr('category', 'blog') 
+  | setAttr('priority', 1) 
+%}
+
+{# Use in loops #}
+{% for item in collection %}
+  {% set enhancedItem = item | setAttr('processed', true) %}
+  {# ... use enhancedItem ... #}
+{% endfor %}
+```
 
 ### byAttr
 
@@ -298,84 +442,11 @@ Template usage:
 {% set recentBlogPosts = collections.all | byAttr('category', 'blog') | reverse | limit(5) %}
 ```
 
-## Available Bricks (Components)
+### Additional Exports
 
-### Navigation Macro (`_nav.njk`)
+The plugin also exports the following for advanced usage:
 
-A reusable Nunjucks macro for rendering navigation menus with proper accessibility attributes. This macro works seamlessly with the [11ty Navigation Plugin](https://www.11ty.dev/docs/plugins/navigation/).
-
-**Usage:**
-
-1. Import the macro in your template:
-
-```njk
-{% from "bricks/_nav.njk" import render as renderNav %}
-```
-
-2. Call the macro with your navigation data:
-
-```njk
-{{ renderNav(collections.all | eleventyNavigation, page) }}
-```
-
-**Parameters:**
-
-- `navPages`: Array of navigation entries (typically from `eleventyNavigation` filter)
-- `curPage`: Current page object (use Eleventy's `page` variable)
-
-**Features:**
-
-- Renders a semantic `<nav>` element
-- Automatically adds `aria-current="page"` to the current page link for accessibility
-- Clean, minimal markup ready for styling
-- Works with nested navigation structures from the 11ty Navigation Plugin
-
-**Example Output:**
-
-```html
-<nav>
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/contact/" aria-current="page">Contact</a>
-</nav>
-```
-
-### Google Tag Manager Macro (`_gtm.njk`)
-
-A reusable Nunjucks macro for integrating Google Tag Manager (GTM) into your site. Provides separate macros for the head and body GTM snippets.
-
-**Usage:**
-
-1. Import the macros in your base template:
-
-```njk
-{% import 'bricks/_gtm.njk' as gtm %}
-```
-
-2. Call the macros in the appropriate locations:
-
-```njk
-<head>
-  <!-- Other head content -->
-  {{ gtm.renderHead('GTM-XXXXXXX') }}
-</head>
-<body>
-  {{ gtm.renderBody('GTM-XXXXXXX') }}
-  <!-- Rest of body content -->
-</body>
-```
-
-**Parameters:**
-
-Both macros accept the same parameter:
-- `gtmId`: Your Google Tag Manager container ID (e.g., `'GTM-XXXXXXX'`)
-
-**Features:**
-
-- Separate macros for head and body placement as recommended by Google
-- Clean, standard GTM implementation
-- Easy to maintain and update across your site
-- Works with all GTM features including noscript fallback
+- `transformAutoRaw(content)`: The transform function used by `autoRaw` preprocessor. Can be used programmatically to wrap Nunjucks syntax with raw tags.
 
 ## CLI Helper Commands
 
