@@ -9,7 +9,7 @@ import { join } from "path";
  * 
  * @param {Object} eleventyConfig - The Eleventy configuration object
  */
-export function fragment(eleventyConfig) {
+export function fragments(eleventyConfig) {
   eleventyConfig.addShortcode("fragment", function(path) {
     // Get the input directory from Eleventy's context
     const inputDir = this.page?.inputPath 

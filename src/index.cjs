@@ -19,8 +19,8 @@ module.exports.autoRaw = async function(eleventyConfig) {
   return autoRaw(eleventyConfig);
 };
 module.exports.fragment = async function(eleventyConfig) {
-  const { fragment } = await import('./index.js');
-  return fragment(eleventyConfig);
+  const { fragments } = await import('./index.js');
+  return fragments(eleventyConfig);
 };
 module.exports.setAttr = async function(eleventyConfig) {
   const { setAttrFilter } = await import('./index.js');
