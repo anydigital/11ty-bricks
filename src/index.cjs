@@ -10,9 +10,9 @@ module.exports = async function eleventyBricksPlugin(eleventyConfig, options) {
 };
 
 // Export individual helpers
-module.exports.bricksRegistry = async function(eleventyConfig) {
-  const { bricksRegistry } = await import('./index.js');
-  return bricksRegistry(eleventyConfig);
+module.exports.bricks = async function(eleventyConfig) {
+  const { bricks } = await import('./index.js');
+  return bricks(eleventyConfig);
 };
 module.exports.autoRaw = async function(eleventyConfig) {
   const { autoRaw } = await import('./index.js');

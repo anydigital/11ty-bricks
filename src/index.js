@@ -1,4 +1,4 @@
-import { bricksRegistry } from "./bricksRegistry.js";
+import { bricks } from "./bricks.js";
 import { autoRaw } from "./autoRaw.js";
 import { fragments } from "./fragments.js";
 import { setAttrFilter } from "./setAttrFilter.js";
@@ -20,7 +20,7 @@ import { byAttrFilter } from "./byAttrFilter.js";
  */
 export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
   if (options.bricks) {
-    bricksRegistry(eleventyConfig);
+    bricks(eleventyConfig);
   }
   if (options.autoRawPreprocessor) {
     autoRaw(eleventyConfig);
@@ -37,7 +37,7 @@ export default function eleventyBricksPlugin(eleventyConfig, options = {}) {
 }
 
 // Export individual helpers for granular usage
-export { bricksRegistry };
+export { bricks };
 export { autoRaw };
 export { fragments };
 export { setAttrFilter };

@@ -48,10 +48,10 @@ Import only the specific helpers you need without using the plugin:
 
 **ES Modules:**
 ```javascript
-import { bricksRegistry, autoRaw } from "@anydigital/11ty-bricks";
+import { bricks, autoRaw } from "@anydigital/11ty-bricks";
 
 export default function(eleventyConfig) {
-  bricksRegistry(eleventyConfig);
+  bricks(eleventyConfig);
   autoRaw(eleventyConfig);
   
   // Your other configuration...
@@ -60,10 +60,10 @@ export default function(eleventyConfig) {
 
 **CommonJS:**
 ```javascript
-const { bricksRegistry, autoRaw } = require("@anydigital/11ty-bricks");
+const { bricks, autoRaw } = require("@anydigital/11ty-bricks");
 
 module.exports = function(eleventyConfig) {
-  bricksRegistry(eleventyConfig);
+  bricks(eleventyConfig);
   autoRaw(eleventyConfig);
   
   // Your other configuration...
@@ -93,34 +93,34 @@ eleventyConfig.addPlugin(eleventyBricks, {
 
 ## Available 11ty Helpers
 
-### bricksRegistry
+### bricks
 
 A dependency management system for Eleventy that automatically collects and injects CSS and JavaScript dependencies (both external and inline) per page. This allows brick components to declare their dependencies, and the system will inject them in the correct location in your HTML.
 
 **Why use this?**
 
-When building reusable components (bricks) in Eleventy, you often need to include CSS and JavaScript dependencies. Instead of manually adding these to every page, `bricksRegistry` automatically:
+When building reusable components (bricks) in Eleventy, you often need to include CSS and JavaScript dependencies. Instead of manually adding these to every page, `bricks` automatically:
 - Collects dependencies from all bricks used on a page
 - Categorizes them (external CSS, external JS, inline styles, inline scripts)
 - Injects them in the correct location in your HTML output
 
 **How it works:**
 
-1. Use the `bricksRegistry` shortcode in your base template to mark where dependencies should be injected
+1. Use the `bricksDependencies` shortcode in your base template to mark where dependencies should be injected
 2. Use the `brick` shortcode to register and render brick components that declare their dependencies
 3. The system automatically collects all dependencies and injects them when the page is built
 
 **Usage:**
 
-1. Enable `bricksRegistry` in your Eleventy config:
+1. Enable `bricks` in your Eleventy config:
 
 ```javascript
-import { bricksRegistry } from "@anydigital/11ty-bricks";
+import { bricks } from "@anydigital/11ty-bricks";
 
 export default function(eleventyConfig) {
-  bricksRegistry(eleventyConfig);
+  bricks(eleventyConfig);
   // Or use as plugin:
-  // eleventyConfig.addPlugin(eleventyBricks, { bricksRegistry: true });
+  // eleventyConfig.addPlugin(eleventyBricks, { bricks: true });
 }
 ```
 

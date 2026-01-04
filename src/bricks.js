@@ -1,4 +1,4 @@
-export function bricksRegistry(eleventyConfig) {
+export function bricks(eleventyConfig) {
 
   // Brick Registry System
   // Global registry to track dependencies per page
